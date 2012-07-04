@@ -18,7 +18,7 @@ A new sidebar is created in the exact location of your current comments area. Wh
 
 This new sidebar makes it very easy to use the comments widget on your website. It gives you the flexibility to modify your comments area in any design or layout that you wish. This new sidebar also allows you to cusomtize exactly how your comments are displayed. 
 
-If you're looking for more information on this widget, or looking to give feedback, including questions, then you can do so here: [http://redrokk.com/2012/07/03/facebook-comments-red-rokk-widget-collection/] (Facebook Comments Widget)
+If you're looking for more information on this widget, or looking to give feedback, including questions, then you can do so here: [Facebook Comments Widget](http://redrokk.com/2012/07/03/facebook-comments-red-rokk-widget-collection/)
 
 == Installation ==
 
