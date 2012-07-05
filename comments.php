@@ -1,12 +1,12 @@
 <?php
 /**
  * @package RedRokk
- * @version 1.0.0
+ * @version 0.02
  * 
  * Plugin Name: Facebook Comments :: Red Rokk Widget Collection
  * Description: Facebook Comments is a social plugin that enables facebook user commenting on your site. Features include moderation tools and distribution.
  * Author: RedRokk Interactive Media
- * Version: 0.1
+ * Version: 0.02
  * Author URI: http://redrokk.com/2012/07/03/facebook-comments-red-rokk-widget-collection/
  */
 
@@ -174,7 +174,7 @@ abstract class Empty_Widget_Abstract extends WP_Widget
 		
 		// widget actual processes
 		parent::WP_Widget( 
-			$id = $classname, 
+			$id = $this->_class, 
 			$name = $this->widget['name'], 
 			$widget_options = array( 
 				'description' => $this->widget['description'] 
@@ -1064,8 +1064,8 @@ class Facebook_Comments_Widget extends Empty_Widget_Abstract
 		// The image to use as a representation of your widget.
 		// Whatever you place here will be used as the img src
 		// so we have opted to use a basencoded image.
-		'thumbnail' => 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gAEKgD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wgARCAAUABQDACIAAREBAhEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAQUDBAYH/8QAFwEBAQEBAAAAAAAAAAAAAAAAAgMAAf/EABcBAQEBAQAAAAAAAAAAAAAAAAIDAAH/2gAMAwAAARECEQAAAd1NnV5p0q2ldY0qLuHjnILl/8QAGhAAAgMBAQAAAAAAAAAAAAAAAwQBAgUAEv/aAAgBAAABBQLR0hiYH7sFM9GV3U7S6pkPCNj1iFWVhH6Eqknv/8QAGREBAAMBAQAAAAAAAAAAAAAAAQACERAh/9oACAECEQE/AVzwlqmyq5z/xAAYEQACAwAAAAAAAAAAAAAAAAAAARARMf/aAAgBAREBPwHSxx//xAAqEAACAQEFBQkAAAAAAAAAAAABAgMABBESFDEFITJBoRATNEJRYnGB4f/aAAgBAAAGPwLuDao7MBxO28/AFZix7RzCjUOVKn7GlJMmjdKlezrJng96EEYcB9b+WtSQWjwRcNKEbCG/BRZFwxu5ZB7eVAteHXhdTcRV0888yjyud3Ts/8QAHxAAAgIBBAMAAAAAAAAAAAAAAREAITFBUXGBkaGx/9oACAEAAAE/IT5Q1rM+kycOGaO+dyAIDSloFg6sEeYz27IWsc8FbS1EVOtm+wVF+JsJNo4D7gEf5hMxwbYr8gA+4AghQn//2gAMAwAAARECEQAAEKOMiP/EABwRAQABBAMAAAAAAAAAAAAAAAEAEBEhMUGh8P/aAAgBAhEBPxB2BixwN/dQDCCWdap//8QAGREBAQEAAwAAAAAAAAAAAAAAAREAECGx/9oACAEBEQE/EAir35hTAvH/xAAbEAEBAQEBAQEBAAAAAAAAAAABESEAQTFRYf/aAAgBAAABPxCJWQrsBIigoSQIrhnchRFVYhuqGUnUIQxKKomKBKYynCVjmiAqAKsLYfICkc2VqFCsBRICVCCxg02iPAgD85qI1G76DsfRo+nGcCQ4aTe/KP5xAAGAfDv/2Q==',
-	
+		'thumbnail' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wHBQ4yL2DpHvQAAAQSSURBVDjLtZRraNZ1FMc/5/f/P3s25+aczmerJZuOzYHmSqcmBZIUiUY0pdQM8hJkaSpIEA0k3xRdhEgLLIpedCFJhCJmYr7xkqUWaIJj5RSa83E5dbfn+f8upxcbo2DWqw4cDudwzofDgfOF/9tSlfVjleO/JwU1C247P9qYmnY/9vej2O724rJNBzZU1zU8VlpWPKdoXGFplE4R3JDmEnuhO3vzSMe+rz6h84eT6WVvoD/uJcl2jAIFIK5/BNfeRvHirXMql6w/OruxrrAkFavGsUQpiGIligQ1SmEsXOpXjn2xf0/P7hWbAAoyDSRXLwBg4qqZw7AVb2+oa9l4qqk2Uxi5vAaXSOQdxivGCzjACjcGoESER1e1vFC369wJABY+P7phFPqzULOobvqytYcaKydoLogUGqTAQCzDN4lUEAVRIQrgPPQlQm3VlOqudH1t36fPHogz9YSBP4kAMqtfO11XV1Nmg0pxBOlISAEpUWJRDIEIxQTwXhFVCIHBvKespqHpYkf2cOg4dBnA0PRUfXnNtDsil1cTLHGwRCHBhDz4POpG3OZQlwM7hCY5QpJjKJdjyFqm3PdwC8DmtbOJSzJVUyW42PtIUkYwAXBKICAaIHgkxIgIYDAAXsAreMUnQWdV+m0N6xa+8+5Hxy/FOthbYoIV5yIwEJyiEggoEgLqI8RYxEQggiJoALxiLIgNMr54Is9tbj118tTS2ri/qzMbnPXBx5FzKs4osYxsF0WIiRAxiDGjwOAheCV4BQ/jkx4ymTnlW7buuMfw2+H27rM/9QUNkrcOay3eJng3Em2Cdwk+yeNtHpfksSPRJQkDgznmTUoQI+bGzYEGUwHXrre939pzuRP1Tp2zWOtwNsGNQvN4m+DyCTbJY/N5EptnaChH6c9f8vhD83De0j8wcCsaBKKSSWeutf9SUtrQPL+oICUiilFFNaAhEELAB48PHusDifcMWk/v6UPs3bqUqkw5PT1duZ2vtu6ITFk1ofeymr7uIz0X23vLGxc8EscxISiqqgEkBFUfEK9Kbz7QcfYszaaDXRuXUjO1Sjs7L8j27Vu3HT3R2RaDAhAgSU+8yyQSM5Q4DalYslev+OvZbLdJF6Vi21c2Pm3STRURO5+exdy5zXhvNaiT1lc2v9T23a+7G+/NEItJDz9heeOCigda3sp5JRm08sex/dmBc99v8S45KHGhTJ1MaWVlwczrV8bf/eaZzwsfXLxo9br1L04f6L/FqlVrKr7+9mWeWb5oWG1MUdmUouYn9o2ryExObvZevnn++EG6znwGZP9FOgtWtMxfs/LJlUviODXtww/ee/2btvP7hhViQuWYE9HE6jHrM+rH7v94z3KISm8DK7vzP9V9Rn3mH3ljQ4a/AAVwIqT8UxdwAAAAAElFTkSuQmCC',
+			
 		/* The field options that you have available to you. Please
 		 * contribute additional field options if you create any.
 		 * 
@@ -1159,7 +1159,7 @@ class Facebook_Comments_Widget extends Empty_Widget_Abstract
 		register_sidebar( array(
 			'name'          => 'Comments Area',
 			'id'            => 'sidebar-comments-area',
-			'description'   => 'This sidebar will display just above your WordPress comments',
+			'description'   => 'This sidebar wraps your current WordPress comments area. Any widgets placed in this area will hide your default comments and display the widgets instead.',
 			'before_widget' => '<div id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</div>',
 			'before_title'  => '<h2 class="widgettitle">',
