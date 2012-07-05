@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=byrd%
 Tags: comments, facebook, connect, simple, commenting, widget, shortcode
 Requires at least: 3.4
 Tested up to: 3.4
-Stable tag: 0.02
+Stable tag: 0.03
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -71,6 +71,10 @@ Yes. We've built in a WYSIWYG button for you that creates the shortcode. Simply 
 
 
 == Changelog ==
+
+= 0.03 =
+* Bug Fix: Receiving PHP Notice: Undefined variable: $classname in comments.php on line 177 when activating or using the plugin.
+* Bug Fix: Mac Safari Version 5.1.7 (6534.57.2) when you click on the app_id field to put in the app_id the focus goes to the title field preventing you from putting it in.
 
 = 0.02 =
 * Enhancement: Added a comment bubble to replace the default Red Rokk logo in the WYSIWYG

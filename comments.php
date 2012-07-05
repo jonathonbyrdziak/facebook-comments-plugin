@@ -1,12 +1,12 @@
 <?php
 /**
  * @package RedRokk
- * @version 0.02
+ * @version 0.03
  * 
  * Plugin Name: Facebook Comments :: Red Rokk Widget Collection
  * Description: Facebook Comments is a social plugin that enables facebook user commenting on your site. Features include moderation tools and distribution.
  * Author: RedRokk Interactive Media
- * Version: 0.02
+ * Version: 0.03
  * Author URI: http://redrokk.com/2012/07/03/facebook-comments-red-rokk-widget-collection/
  */
 
@@ -306,192 +306,192 @@ abstract class Empty_Widget_Abstract extends WP_Widget
      * @param boolean $shortcode
      * @return boolean
      */
-    function form( $instance = array(), $shortcode = false )
-    {    
-        // initializing
-        $fields = $this->widget['fields'];
-        $defaults = array(
-            'name'         => '',
-            'desc'         => '',
-            'id'         => '',
-            'type'         => 'text',
-            'options'    => array(),
-            'default'    => '',
-            'value'        => '',
-            'class'        => '',
-            'multiple'    => '',
-            'args'        => array(
-                'hide_empty'     => 0, 
-                'name'             => 'element_name', 
-                'hierarchical'     => true
-            ),
-        );
-        
-        // reasons to fail
-        if (!empty($fields))
-        {
-            do_action("{$this->_class}_before");
-            foreach ($fields as $field)
-            {
-                // initializing the individual field
-                $field = wp_parse_args($field, $defaults);
-                $field['args'] = wp_parse_args($field['args'], $defaults['args']);
-                
-                extract($field);
-                $field['args']['name'] = $element_name = $id;
-                
-                // grabbing the meta value
-                if (array_key_exists($id, $instance))
-                    @$meta = attribute_escape($instance[$id]);
-                else
-                    $meta = $default;
-                
-                if (!$shortcode)
-                {
-                    $field['args']['name'] = $element_name = $this->get_field_name($id);
-                    $id = $this->get_field_id($id);
-                }
-                
-                switch ($type) : default: ?>
-                    <?php case 'text': ?>
-                        <p>
-                            <label for="<?php echo $id; ?>">
-                                <?php echo $name; ?> :
-                                <input id="<?php echo $id; ?>" name="<?php echo $element_name; ?>" 
-                                    value="<?php echo $meta; ?>" type="<?php echo $type; ?>" 
-                                    class="text large-text <?php echo $class; ?>" />
-                            </label>
-                            
-                            <br/>
-                            <span class="description"><?php echo $desc; ?></span>
-                        </p>
-                    <?php break; ?>
-                    <?php case 'textarea': ?>
-                        <p>
-                            <label for="<?php echo $id; ?>">
-                                <?php echo $name; ?> :
-                                <textarea cols="60" rows="4" style="width:97%"
-                                    id="<?php echo $id; ?>" name="<?php echo $element_name; ?>" 
-                                    class="large-text <?php echo $class; ?>"
-                                    ><?php echo $meta; ?></textarea>
-                            </label>
-                            
-                            <br/>
-                            <span class="description"><?php echo $desc; ?></span>
-                        </p>
-                    <?php break; ?>
-                    <?php case 'select_capabilities': ?>
-                        <?php $options = $type=='select_capabilities' ?$this->get_options_capabilities() :$options; ?>
-                        
-                    <?php case 'select_roles': ?>
-                        <?php $options = $type=='select_roles' ?$this->get_options_roles() :$options; ?>
-                        
-                    <?php case 'select_menu': ?>
-                        <?php $options = $type=='select_menu' ?$this->get_options_menus() :$options; ?>
-                        
-                    <?php case 'select_users': ?>
-                        <?php $options = $type=='select_users' ?$this->get_options_users() :$options; ?>
-                        
-                    <?php case 'select_categories': ?>
-                    <?php case 'select': ?>
-                        <p>
-                            <label for="<?php echo $id; ?>">
-                                <?php echo $name; ?> : 
-                                
-                                <?php if ($type == 'select_categories'): ?>
-                                    <?php wp_dropdown_categories($args); ?>
-                                
-                                <?php else: ?>
-                                    <select <?php echo $multiple ?"MULTIPLE SIZE='$multiple'" :''; ?>
-                                        id="<?php echo $id; ?>" name="<?php echo $element_name; ?>" 
-                                        class="<?php echo $class; ?>">
-                                        
-                                        <?php foreach ((array)$options as $_value => $_name): ?>
-                                        <?php $_value = !is_int($_value)?$_value:$_name; ?>
-                                        <option 
-                                            value="<?php echo $_value; ?>"
-                                            <?php echo $meta == $_value?' selected="selected"' :''; ?>
-                                            ><?php echo $_name; ?>
-                                        </option>
-                                        <?php endforeach; ?>
-                                    
-                                    </select>
-                                <?php endif; ?>
-                            </label>
-                            
-                            <br/>
-                            <span class="description"><?php echo $desc; ?></span>
-                        </p>
-                    <?php break; ?>
-                    <?php case 'radio': ?>
-                        <p>
-                            <?php echo $name; ?> : 
-                        </p>
-                        <p>
-                            <?php foreach ((array)$options as $_value => $_name): ?>
-                            <label class="<?php echo $element_name; ?>" for="<?php echo $id; ?>">
-                                <input name="<?php echo $element_name; ?>"  id="<?php echo $id; ?>" 
-                                    value="<?php echo $_value; ?>" type="<?php echo $type; ?>" 
-                                    <?php echo $meta == $_value?'checked="checked"' :''; ?>
-                                    class="<?php echo $class; ?>" />
-                                    
-                                <?php echo $_name; ?>
-                            </label>
-                            <?php endforeach; ?>
-                            
-                            <br/>
-                            <span class="description"><?php echo $desc; ?></span>
-                        </p>
-                    <?php break; ?>
-                    <?php case 'checkbox': ?>
-                        <p>
-                            <?php echo $name; ?> : 
-                        </p>
-                        <p>
-                            <!-- first hidden input forces this item to be submitted 
-                            via javascript, when it is not checked -->
-                            <input type="hidden" name="<?php echo $element_name; ?>" value="" />
-                            
-                            <?php foreach ((array)$options as $_value => $_name): ?>
-                            <label class="<?php echo $element_name; ?>" for="<?php echo $id; ?>">
-                                <input value="<?php echo $_value; ?>" type="<?php echo $type; ?>" 
-                                    name="<?php echo $element_name; ?>" id="<?php echo $id; ?>" 
-                                    <?php echo $meta == $_value? 'checked="checked"' :''; ?>
-                                    class="<?php echo $class; ?>" />
-                                
-                                <?php echo $name; ?>
-                            </label>
-                            <?php endforeach; ?>
-                            
-                            <br/>
-                            <span class="description"><?php echo $desc; ?></span>
-                        </p>
-                    <?php break; ?>
-                    <?php case 'title': ?>
-                            <h3 style="border: 1px solid #ddd;
-                                padding: 10px;
-                                background: #eee;
-                                border-radius: 2px;
-                                color: #666;
-                                margin: 0;"><?php echo $name; ?></h3>
-                    <?php break; ?>
-                    <?php case 'hidden': ?>
-                        <input 
-                            id="<?php echo $id; ?>" name="<?php echo $element_name; ?>" 
-                            value="<?php echo $meta; ?>" type="<?php echo $type; ?>" 
-                            style="visibility:hidden;" />
-                    <?php break; ?>
-                    
-                    <?php case 'checkbox': ?>
-                        <?php echo $default; ?>
-                    <?php break; ?>
-                    
-            <?php endswitch;
-            }
-            do_action("{$this->_class}_after");
-        }
-        return true;
-    }
+	function form( $instance = array(), $shortcode = false )
+	{
+		// initializing
+		$fields = $this->widget['fields'];
+		$defaults = array(
+			'name' 		=> '',
+			'desc' 		=> '',
+			'id' 		=> '',
+			'type' 		=> 'text',
+			'options'	=> array(),
+			'default'	=> '',
+			'value'		=> '',
+			'class'		=> '',
+			'multiple'	=> '',
+			'args'		=> array(
+				'hide_empty' 	=> 0, 
+				'name' 			=> 'element_name', 
+				'hierarchical' 	=> true
+			),
+		);
+		
+		// reasons to fail
+		if (!empty($fields))
+		{
+			do_action("{$this->_class}_before");
+			foreach ($fields as $field)
+			{
+				// initializing the individual field
+				$field = wp_parse_args($field, $defaults);
+				$field['args'] = wp_parse_args($field['args'], $defaults['args']);
+				
+				extract($field);
+				$field['args']['name'] = $element_name = $id;
+				
+				// grabbing the meta value
+				if (array_key_exists($id, $instance))
+					@$meta = attribute_escape($instance[$id]);
+				else
+					$meta = $default;
+				
+				if (!$shortcode)
+				{
+					$field['args']['name'] = $element_name = $this->get_field_name($id);
+					$id = $this->get_field_id($id);
+				}
+				
+				switch ($type) : default: ?>
+					<?php case 'text': ?>
+						<p>
+							<label for="<?php echo $id; ?>">
+								<?php echo $name; ?> :
+							</label>
+							<input id="<?php echo $id; ?>" name="<?php echo $element_name; ?>" 
+								value="<?php echo $meta; ?>" type="<?php echo $type; ?>" 
+								class="text large-text <?php echo $class; ?>" />
+							
+							<br/>
+							<span class="description"><?php echo $desc; ?></span>
+						</p>
+					<?php break; ?>
+					<?php case 'textarea': ?>
+						<p>
+							<label for="<?php echo $id; ?>">
+								<?php echo $name; ?> :
+							</label>
+							<textarea cols="60" rows="4" style="width:97%"
+								id="<?php echo $id; ?>" name="<?php echo $element_name; ?>" 
+								class="large-text <?php echo $class; ?>"
+								><?php echo $meta; ?></textarea>
+							
+							<br/>
+							<span class="description"><?php echo $desc; ?></span>
+						</p>
+					<?php break; ?>
+					<?php case 'select_capabilities': ?>
+						<?php $options = $type=='select_capabilities' ?$this->get_options_capabilities() :$options; ?>
+						
+					<?php case 'select_roles': ?>
+						<?php $options = $type=='select_roles' ?$this->get_options_roles() :$options; ?>
+						
+					<?php case 'select_menu': ?>
+						<?php $options = $type=='select_menu' ?$this->get_options_menus() :$options; ?>
+						
+					<?php case 'select_users': ?>
+						<?php $options = $type=='select_users' ?$this->get_options_users() :$options; ?>
+						
+					<?php case 'select_categories': ?>
+					<?php case 'select': ?>
+						<p>
+							<label for="<?php echo $id; ?>">
+								<?php echo $name; ?> : 
+							</label>
+								
+							<?php if ($type == 'select_categories'): ?>
+								<?php wp_dropdown_categories($args); ?>
+							
+							<?php else: ?>
+								<select <?php echo $multiple ?"MULTIPLE SIZE='$multiple'" :''; ?>
+									id="<?php echo $id; ?>" name="<?php echo $element_name; ?>" 
+									class="<?php echo $class; ?>">
+									
+									<?php foreach ((array)$options as $_value => $_name): ?>
+									<?php $_value = !is_int($_value)?$_value:$_name; ?>
+									<option 
+										value="<?php echo $_value; ?>"
+										<?php echo $meta == $_value?' selected="selected"' :''; ?>
+										><?php echo $_name; ?>
+									</option>
+									<?php endforeach; ?>
+								
+								</select>
+							<?php endif; ?>
+							
+							<br/>
+							<span class="description"><?php echo $desc; ?></span>
+						</p>
+					<?php break; ?>
+					<?php case 'radio': ?>
+						<p>
+							<?php echo $name; ?> : 
+						</p>
+						<p>
+							<?php foreach ((array)$options as $_value => $_name): ?>
+								<input name="<?php echo $element_name; ?>"  id="<?php echo $id; ?>" 
+									value="<?php echo $_value; ?>" type="<?php echo $type; ?>" 
+									<?php echo $meta == $_value?'checked="checked"' :''; ?>
+									class="<?php echo $class; ?>" />
+										
+								<label class="<?php echo $element_name; ?>" for="<?php echo $id; ?>">
+									<?php echo $_name; ?>
+								</label>
+							<?php endforeach; ?>
+							
+							<br/>
+							<span class="description"><?php echo $desc; ?></span>
+						</p>
+					<?php break; ?>
+					<?php case 'checkbox': ?>
+						<p>
+							<?php echo $name; ?> : 
+						</p>
+						<p>
+							<!-- first hidden input forces this item to be submitted 
+							via javascript, when it is not checked -->
+							<input type="hidden" name="<?php echo $element_name; ?>" value="" />
+							
+							<?php foreach ((array)$options as $_value => $_name): ?>
+								<input value="<?php echo $_value; ?>" type="<?php echo $type; ?>" 
+									name="<?php echo $element_name; ?>" id="<?php echo $id; ?>" 
+									<?php echo $meta == $_value? 'checked="checked"' :''; ?>
+									class="<?php echo $class; ?>" />
+								
+								<label class="<?php echo $element_name; ?>" for="<?php echo $id; ?>">
+									<?php echo $_name; ?>
+								</label>
+							<?php endforeach; ?>
+							
+							<br/>
+							<span class="description"><?php echo $desc; ?></span>
+						</p>
+					<?php break; ?>
+					<?php case 'title': ?>
+							<h3 style="border: 1px solid #ddd;
+								padding: 10px;
+								background: #eee;
+								border-radius: 2px;
+								color: #666;
+								margin: 0;"><?php echo $name; ?></h3>
+					<?php break; ?>
+					<?php case 'hidden': ?>
+						<input 
+							id="<?php echo $id; ?>" name="<?php echo $element_name; ?>" 
+							value="<?php echo $meta; ?>" type="<?php echo $type; ?>" 
+							style="visibility:hidden;" />
+					<?php break; ?>
+					
+					<?php case 'custom': ?>
+						<?php echo $default; ?>
+					<?php break; ?>
+					
+			<?php endswitch;
+			}
+			do_action("{$this->_class}_after");
+		}
+		return true;
+	}
     
     /**
      * Returns an options list of menus
