@@ -1,10 +1,10 @@
 === Plugin Name ===
 Contributors: Jonathon_at_RedRokk
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=byrd%40redrokk%2Ecom
-Tags: comments, facebook, connect, simple, commenting, widget, shortcode
+Tags: comments, facebook, connect, simple, commenting, widget, shortcode, sidebar, social
 Requires at least: 3.4
-Tested up to: 3.4
-Stable tag: 0.03
+Tested up to: 3.4.1
+Stable tag: 0.04
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -71,6 +71,9 @@ Yes. We've built in a WYSIWYG button for you that creates the shortcode. Simply 
 
 
 == Changelog ==
+
+= 0.04 =
+* PHP Version Fatal Error: Declaration of Facebook_Comments_Widget::html() must be compatible with that of Empty_Widget_Abstract::html()
 
 = 0.03 =
 * Bug Fix: Receiving PHP Notice: Undefined variable: $classname in comments.php on line 177 when activating or using the plugin.
