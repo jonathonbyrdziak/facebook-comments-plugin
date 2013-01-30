@@ -172,11 +172,13 @@ class Facebook_Comments_Widget extends Empty_Widget_Abstract
 	function __construct()
 	{
 		parent::__construct();
-		
 		// Hooks
 		add_action('init', array(&$this, 'init'));
+		
 		add_filter('language_attributes', array(&$this, 'language_attributes'));
 		add_filter('comments_template', array(&$this, 'comments_template'));
+		// add_filter('get_comments_number', array(&$this, 'comments_number'),0);
+		// add_filter('comments_number', array(&$this, 'comments_number'),0);
 	}
 	
 	/**
@@ -216,10 +218,31 @@ class Facebook_Comments_Widget extends Empty_Widget_Abstract
 	function comments_template( $file )
 	{
 		if (!dynamic_sidebar('sidebar-comments-area')) {
+			if (!post_password_required() || comments_open()) // show
 			return $file;
 		}
 		return dirname(__file__).DS.'index.php';
 	}
+	
+	/**
+	 * This is to replace Wordpress comment count with facebook comment count
+	 * @param $commentcount
+	 */
+	function comments_number( $commentcount ){
+		// $json = file_get_contents('https://graph.facebook.com/comments/?ids='.urlencode(get_permalink( get_the_ID() )));
+		$url = urlencode(get_permalink( get_the_ID() ));
+		// $json = file_get_contents('https://graph.facebook.com/comments/?ids='.$url);
+
+		// $comments = json_decode($json);
+		// $num_fb_comments = count($comments->$url->comments->data);
+		$num_fb_comments = count($this->fb_comment_count($url));
+		return $num_fb_comments;
+	}
+
+	function fb_comment_count($url){
+		$json = json_decode(file_get_contents('https://graph.facebook.com/?ids=' . $url));
+		return ($json->$url->comments) ? $json->$url->comments : 0;
+		}
 
 	/**
 	 * Widget HTML
@@ -239,7 +262,7 @@ class Facebook_Comments_Widget extends Empty_Widget_Abstract
 			'color'		=> 'light',
 			'href'		=> false,
 			'numPosts'	=> 5,
-			'width'		=> '470',
+			'width'		=> '600',
 			'mobile'	=> 'auto-detect',
 			'code'		=> 'html5'
 		)));
